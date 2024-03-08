@@ -1,60 +1,74 @@
-const UsersModel = require('../models/users');
+const UsersModel = require("../models/users");
 const getAllUsers = async (req, res) => {
-try {
+  try {
     const [data] = await UsersModel.getAllUsers();
-         res.json({
-            message: 'GET all users success',
-            data:data
-        })
-    
-} catch (error) {
+    res.json({
+      message: "GET all users success",
+      data: data,
+    });
+  } catch (error) {
     res.status(500).json({
-        message: 'Server Error',
-        serverMessage: error,
-    })
-}
-} 
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
 
 const createNewUser = async (req, res) => {
-try {
-    const [data] = await UsersModel.getAllUsers();
-         res.json({
-            message: 'GET all users success',
-            data:data
-        })
-    
-} catch (error) {
+  //console.log(req.body);
+  const { body } = req;
+
+  try {
+    console.log(req)
+    await UsersModel.createNewUser(req.body);
+    res.json({
+      message: "CREATE new user succees",
+      data: res.data,
+    });
+  } catch (error) {
     res.status(500).json({
-        message: 'Server Error',
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+}
+
+const updateUser = async(req, res) => {
+  const { id } = req.params;
+  const {body} =req;
+  try {
+      await UsersModel.updateUser(body, id);
+      res.json({
+        message: "UPDATE user success",
+        data:req.body
+      });
+  } catch (error) {
+    res.status(500).json({
+        message: "Server Error",
         serverMessage: error,
-    })
+      });
+  }
 }
-} 
-const updateUser = (req, res) => {
-    const {id} =req.params;
-    console.log('id: ', id);
-    res.json({
-        message: 'UPDATE user success',
-        data: req.body,
-    })
-}
-const deleteUser =(req, res) => {
-    const {id} = req.params;
-    res.json({
-        message: 'DELETE user success',
-        data: {
-            id: id,
-            name: "Nila Enjeli",
-            email:"nilaanjeli1904@gmail.com",
-            address:"Padang"
-        }
-    })
+const deleteUser = async(req, res) => {
+  const { id } = req.params;
+  try {
+    await UsersModel.deleteUser(id);
+      res.json({
+        message: "DELETE user success",
+        data:null
+      })
+    
+  } catch (error) {
+    res.status(500).json({
+        message: "Server Error",
+        serverMessage: error,
+      });
+  }
 }
 
 module.exports = {
-    getAllUsers,
-    createNewUser,
-    updateUser,
-    deleteUser,
-
-}
+  getAllUsers,
+  createNewUser,
+  updateUser,
+  deleteUser,
+};
