@@ -8,7 +8,7 @@ const getAllUsers = () => {
 
 const createNewUser = (body) => {
   const SQLQuery = `INSERT INTO users (name, email, address) 
-                           VALUES ('${body.name}', '${body.email}', '${body.address}')`;
+                    VALUES ('${body.name}', '${body.email}', '${body.address}')`;
   return dbpool.execute(SQLQuery);
 };
 
